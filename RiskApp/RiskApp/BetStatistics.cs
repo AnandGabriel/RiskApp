@@ -8,10 +8,10 @@ namespace RiskApp
 {
     class BetStatistics
     {
-        private int CustomerID;
-        private int WinPercentage;
-        private int AverageBet;
-        
+        public int CustomerID { get; }
+        public int WinPercentage { get; }
+        public int AverageBet { get; }
+
         public BetStatistics(int customerID, int winPercentage, int averageBet)
         {
             CustomerID = customerID;

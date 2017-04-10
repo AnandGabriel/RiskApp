@@ -16,12 +16,12 @@ namespace RiskApp
     /// </summary>
     public class Bet
     {
-        private int CustomerID;
-        private int EventID;
-        private int ParticipantID;
-        private decimal Stake;
-        private decimal Win;
-        private BetType BetType;
+        public int CustomerID { get; }
+        public int EventID { get; }
+        public int ParticipantID { get; }
+        public decimal Stake { get; }
+        public decimal Win { get; }
+        public BetType BetType { get; }
 
         public Bet(int customerID, int eventID, int participantID, decimal stake, decimal win, BetType betType)
         {
