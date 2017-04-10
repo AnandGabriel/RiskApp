@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bet.cs" />
+    <Compile Include="BetAnalyzer.cs" />
+    <Compile Include="BetStatistics.cs" />
+    <Compile Include="IBetAnalyzer.cs" />
     <Compile Include="FileHandler.cs" />
     <Compile Include="IFileHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
