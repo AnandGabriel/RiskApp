@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RiskApp
 {
-    interface IBetAnalyzer
+    public interface IBetAnalyzer
     {
-        List<BetStatistics> AnalyzeBets();
+        List<BetStatistics> AnalyzeBets(List<Bet> bets);
     }
 }

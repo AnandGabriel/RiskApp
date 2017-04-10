@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace RiskApp
 {
-    class BetAnalyzer : IBetAnalyzer
+    public class BetAnalyzer : IBetAnalyzer
     {
-        private IEnumerable<Bet> Bets;
-
-        public BetAnalyzer(List<Bet> bets)
+        public BetAnalyzer()
         {
-            Bets = bets;
+            
         }
 
-        public List<BetStatistics> AnalyzeBets()
+        public List<BetStatistics> AnalyzeBets(List<Bet> Bets)
         {
             //Get won bets count group by customer id
-            var customersWonBets = Bets.GroupBy(x => x.CustomerID).Where(y => y.Any(o=>o.Win > 0)).Select(group => new { CustomerID = group.Key, WinCount = group.Count() });
+            var customersWonBets = Bets.Where(o => o.Win > 0).GroupBy(x => x.CustomerID).Select(group => new { CustomerID = group.Key, WinCount = group.Count() });
 
             //Get total bets count group customer id
             var customersTotalBets = Bets.GroupBy(x => x.CustomerID).Select(group => new { CustomerID = group.Key, BetCount = group.Count() });
@@ -26,7 +24,7 @@ namespace RiskApp
             //join the above two groups on customer id
             var customerStatistics = from customerWon in customersWonBets
                                      join customerTotal in customersTotalBets on customerWon.CustomerID equals customerTotal.CustomerID
-                                     select new BetStatistics(customerTotal.CustomerID, customerWon.WinCount / customerTotal.BetCount * 100, 0);
+                                     select new BetStatistics(customerTotal.CustomerID, (decimal) customerWon.WinCount / (decimal) customerTotal.BetCount * 100, 0);
 
             return customerStatistics.ToList();
 

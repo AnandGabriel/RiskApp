@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace RiskApp
 {
-    class BetStatistics
+    public class BetStatistics
     {
         public int CustomerID { get; }
-        public int WinPercentage { get; }
+        public decimal WinPercentage { get; }
         public int AverageBet { get; }
 
-        public BetStatistics(int customerID, int winPercentage, int averageBet)
+        public BetStatistics(int customerID, decimal winPercentage, int averageBet)
         {
             CustomerID = customerID;
             WinPercentage = winPercentage;

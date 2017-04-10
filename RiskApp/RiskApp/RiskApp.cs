@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RiskApp
 {
-    class RiskApp
+    public class RiskApp
     {
         IFileHandler FileHandler;
         IBetAnalyzer BetAnalyzer;
@@ -16,6 +16,7 @@ namespace RiskApp
         public RiskApp(IFileHandler fileHandler, IBetAnalyzer betAnalyzer)
         {
             FileHandler = fileHandler;
+            BetAnalyzer = betAnalyzer;
         }
 
         public List<BetStatistics> GetCustomersWithUnUsualRate()
@@ -24,7 +25,7 @@ namespace RiskApp
             List<Bet> bets = FileHandler.GetBets();
 
             //Analyze the bets
-            List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets();
+            List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(bets);
 
             //Get the unusual rate bets
             List<BetStatistics> betsUnusal = betStatistics.Where(x => x.WinPercentage > UnUsualRateCutOffPercentage).ToList();
