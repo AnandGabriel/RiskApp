@@ -10,9 +10,9 @@ namespace RiskApp
     {
         public int CustomerID { get; }
         public decimal WinPercentage { get; }
-        public int AverageBet { get; }
+        public decimal AverageBet { get; }
 
-        public BetStatistics(int customerID, decimal winPercentage, int averageBet)
+        public BetStatistics(int customerID, decimal winPercentage, decimal averageBet)
         {
             CustomerID = customerID;
             WinPercentage = winPercentage;

@@ -22,8 +22,9 @@ namespace RiskApp
         public decimal Stake { get; }
         public decimal Win { get; }
         public BetType BetType { get; }
+        public bool RiskyBet { get; }
 
-        public Bet(int customerID, int eventID, int participantID, decimal stake, decimal win, BetType betType)
+        public Bet(int customerID, int eventID, int participantID, decimal stake, decimal win, BetType betType, bool riskyBet =false)
         {
             CustomerID = customerID;
             EventID = eventID;
@@ -31,6 +32,7 @@ namespace RiskApp
             Stake = stake;
             Win = win;
             BetType = betType;
+            RiskyBet = riskyBet;
         }
     }
 }
