@@ -11,6 +11,17 @@ namespace RiskApp
         Settled = 1,
         UnSettled = 2
     }
+
+    public enum RiskType
+    {
+        None = 1,
+        Risky = 2,
+        Unusual = 3,
+        HighlyUnusal = 4,
+        MoreThan1000 = 5
+        
+    }
+
     /// <summary>
     /// Holds bet details
     /// </summary>
@@ -22,9 +33,9 @@ namespace RiskApp
         public decimal Stake { get; }
         public decimal Win { get; }
         public BetType BetType { get; }
-        public bool RiskyBet { get; }
+        public RiskType RiskType { get; }
 
-        public Bet(int customerID, int eventID, int participantID, decimal stake, decimal win, BetType betType, bool riskyBet =false)
+        public Bet(int customerID, int eventID, int participantID, decimal stake, decimal win, BetType betType, RiskType riskType = RiskType.None)
         {
             CustomerID = customerID;
             EventID = eventID;
@@ -32,7 +43,7 @@ namespace RiskApp
             Stake = stake;
             Win = win;
             BetType = betType;
-            RiskyBet = riskyBet;
+            RiskType = riskType;
         }
     }
 }

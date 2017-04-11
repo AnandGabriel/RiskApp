@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RiskApp
 {
+    /// <summary>
+    /// Main class
+    /// </summary>
     public class RiskApp
     {
         IFileHandler FileHandlerSettled;
@@ -50,8 +53,8 @@ namespace RiskApp
             List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
 
             RiskyBetsByUnusualRateCustomer = new RiskyBetsByUnusualRateCustomer(settledBets, unsettledBets, betStatistics);
-            RiskyBetsByTenTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 10);
-            RiskyBetsByThirtyTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 30);
+            RiskyBetsByTenTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 10, RiskType.Unusual);
+            RiskyBetsByThirtyTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 30, RiskType.HighlyUnusal);
             RiskyBetsByHigherWinAmount = new RiskyBetsByHigherWinAmount(settledBets, unsettledBets, betStatistics);
 
             List<Bet> riskyBets = RiskyBetsByUnusualRateCustomer.GetRiskyBets();
@@ -95,7 +98,7 @@ namespace RiskApp
             //Analyze the bets
             List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
 
-            RiskyBetsByTenTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 10);
+            RiskyBetsByTenTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 10, RiskType.Unusual);
 
             List<Bet> riskyBets = RiskyBetsByTenTimesAverageBet.GetRiskyBets();
 
@@ -113,7 +116,7 @@ namespace RiskApp
             //Analyze the bets
             List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
 
-            RiskyBetsByThirtyTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 30);
+            RiskyBetsByThirtyTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 30, RiskType.HighlyUnusal);
 
             List<Bet> riskyBets = RiskyBetsByThirtyTimesAverageBet.GetRiskyBets();
 

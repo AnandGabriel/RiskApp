@@ -26,10 +26,9 @@ namespace RiskApp
             //Get the unusual rate bets
             List<BetStatistics> betsUnusualByCustomer = BetStatistics.Where(x => x.WinPercentage > UnUsualRateCutOffPercentage).ToList();
 
-            bool riskyBet = true;
             var riskyBetsByUnusualRateCustomer = from bet in UnsettledBets
                                                  join unusualRate in betsUnusualByCustomer on bet.CustomerID equals unusualRate.CustomerID
-                                select new Bet(bet.CustomerID, bet.EventID, bet.ParticipantID, bet.Stake, bet.Win, bet.BetType, riskyBet);
+                                select new Bet(bet.CustomerID, bet.EventID, bet.ParticipantID, bet.Stake, bet.Win, bet.BetType, RiskType.Risky);
 
             return riskyBetsByUnusualRateCustomer.ToList();
         }

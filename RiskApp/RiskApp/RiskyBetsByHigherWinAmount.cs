@@ -25,9 +25,9 @@ namespace RiskApp
         {
             var riskyBetsByTimesHigherThanAverageBet = from bet in UnsettledBets
                                                        join betStatistic in BetStatistics on bet.CustomerID equals betStatistic.CustomerID
-                                                       select new Bet(bet.CustomerID, bet.EventID, bet.ParticipantID, bet.Stake, bet.Win, bet.BetType, bet.Win >= HigherAmountMargin);
+                                                       select new Bet(bet.CustomerID, bet.EventID, bet.ParticipantID, bet.Stake, bet.Win, bet.BetType, bet.Win >= HigherAmountMargin ? RiskType.MoreThan1000 : RiskType.None);
 
-            return riskyBetsByTimesHigherThanAverageBet.Where(x => x.RiskyBet == true).ToList();
+            return riskyBetsByTimesHigherThanAverageBet.Where(x => x.RiskType != RiskType.None).ToList();
         }
     }
 }
