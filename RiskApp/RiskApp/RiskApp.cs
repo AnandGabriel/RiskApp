@@ -11,7 +11,10 @@ namespace RiskApp
         IFileHandler FileHandlerSettled;
         IFileHandler FileHandlerUnSettled;
         IBetAnalyzer BetAnalyzer;
-
+        IBetRiskIdentifier RiskyBetsByUnusualRateCustomer;
+        IBetRiskIdentifier RiskyBetsByTenTimesAverageBet;
+        IBetRiskIdentifier RiskyBetsByThirtyTimesAverageBet;
+        IBetRiskIdentifier RiskyBetsByHigherWinAmount;
         const int UnUsualRateCutOffPercentage = 60;
 
         public RiskApp(IFileHandler fileHandlerSettled, IFileHandler fileHandlerUnSettled, IBetAnalyzer betAnalyzer)
@@ -35,20 +38,104 @@ namespace RiskApp
             return betsUnusal;
         }
 
-        public List<Bet> GetBetsFromRiskyCustomers()
+        public List<Bet> GetTotalRiskyBets()
         {
             //Get the bets from the file
-            List<Bet> bets = FileHandlerUnSettled.GetBets();
+            List<Bet> unsettledBets = FileHandlerUnSettled.GetBets();
 
-            //Get the unusual rate from settled bets
-            List<BetStatistics> betsUnusalRate = GetCustomersWithUnUsualRate();
+            //Get the bets from the file
+            List<Bet> settledBets = FileHandlerSettled.GetBets();
 
-            bool riskyBet = true;
-            var markBetsRisky = from bet in bets
-                                join unusualRate in betsUnusalRate on bet.CustomerID equals unusualRate.CustomerID
-                                select new Bet(bet.CustomerID, bet.EventID, bet.ParticipantID, bet.Stake, bet.Win, bet.BetType, riskyBet);
+            //Analyze the bets
+            List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
 
-            return markBetsRisky.ToList();
+            RiskyBetsByUnusualRateCustomer = new RiskyBetsByUnusualRateCustomer(settledBets, unsettledBets, betStatistics);
+            RiskyBetsByTenTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 10);
+            RiskyBetsByThirtyTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 30);
+            RiskyBetsByHigherWinAmount = new RiskyBetsByHigherWinAmount(settledBets, unsettledBets, betStatistics);
+
+            List<Bet> riskyBets = RiskyBetsByUnusualRateCustomer.GetRiskyBets();
+            List<Bet> riskyBetsByTenTimesAverageBet = RiskyBetsByTenTimesAverageBet.GetRiskyBets();
+            List<Bet> riskyBetsByThirtyTimesAverageBet = RiskyBetsByThirtyTimesAverageBet.GetRiskyBets();
+            List<Bet> riskyBetsByHigherWinAmount= RiskyBetsByHigherWinAmount.GetRiskyBets();
+
+            riskyBets.AddRange(riskyBetsByTenTimesAverageBet);
+            riskyBets.AddRange(riskyBetsByThirtyTimesAverageBet);
+            riskyBets.AddRange(riskyBetsByHigherWinAmount);
+
+            return riskyBets.ToList();
+        }
+
+        public List<Bet> GetRiskyBetsByUnusualRateCustomer()
+        {
+            //Get the bets from the file
+            List<Bet> unsettledBets = FileHandlerUnSettled.GetBets();
+
+            //Get the bets from the file
+            List<Bet> settledBets = FileHandlerSettled.GetBets();
+
+            //Analyze the bets
+            List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
+
+            RiskyBetsByUnusualRateCustomer = new RiskyBetsByUnusualRateCustomer(settledBets, unsettledBets, betStatistics);
+
+            List<Bet> riskyBets = RiskyBetsByUnusualRateCustomer.GetRiskyBets();
+
+            return riskyBets.ToList();
+        }
+
+        public List<Bet> GetRiskyBetsByTenTimesMoreThanAverage()
+        {
+            //Get the bets from the file
+            List<Bet> unsettledBets = FileHandlerUnSettled.GetBets();
+
+            //Get the bets from the file
+            List<Bet> settledBets = FileHandlerSettled.GetBets();
+
+            //Analyze the bets
+            List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
+
+            RiskyBetsByTenTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 10);
+
+            List<Bet> riskyBets = RiskyBetsByTenTimesAverageBet.GetRiskyBets();
+
+            return riskyBets.ToList();
+        }
+
+        public List<Bet> GetRiskyBetsByThirtyTimesMoreThanAverage()
+        {
+            //Get the bets from the file
+            List<Bet> unsettledBets = FileHandlerUnSettled.GetBets();
+
+            //Get the bets from the file
+            List<Bet> settledBets = FileHandlerSettled.GetBets();
+
+            //Analyze the bets
+            List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
+
+            RiskyBetsByThirtyTimesAverageBet = new RiskyBetsByTimesAverageBet(settledBets, unsettledBets, betStatistics, 30);
+
+            List<Bet> riskyBets = RiskyBetsByThirtyTimesAverageBet.GetRiskyBets();
+
+            return riskyBets.ToList();
+        }
+
+        public List<Bet> GetRiskyBetsByHigherWinAmount()
+        {
+            //Get the bets from the file
+            List<Bet> unsettledBets = FileHandlerUnSettled.GetBets();
+
+            //Get the bets from the file
+            List<Bet> settledBets = FileHandlerSettled.GetBets();
+
+            //Analyze the bets
+            List<BetStatistics> betStatistics = BetAnalyzer.AnalyzeBets(settledBets);
+
+            RiskyBetsByHigherWinAmount = new RiskyBetsByHigherWinAmount(settledBets, unsettledBets, betStatistics);
+
+            List<Bet> riskyBets = RiskyBetsByHigherWinAmount.GetRiskyBets();
+
+            return riskyBets.ToList();
         }
     }
 }

@@ -45,9 +45,13 @@
     <Compile Include="BetStatistics.cs" />
     <Compile Include="IBetAnalyzer.cs" />
     <Compile Include="FileHandler.cs" />
+    <Compile Include="IBetRiskIdentifier.cs" />
     <Compile Include="IFileHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RiskApp.cs" />
+    <Compile Include="RiskyBetsByHigherWinAmount.cs" />
+    <Compile Include="RiskyBetsByTimesAverageBet.cs" />
+    <Compile Include="RiskyBetsByUnusualRateCustomer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

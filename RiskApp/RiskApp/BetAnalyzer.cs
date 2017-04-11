@@ -19,7 +19,7 @@ namespace RiskApp
             var customersWonBets = Bets.Where(o => o.Win > 0).GroupBy(x => x.CustomerID).Select(group => new { CustomerID = group.Key, WinCount = group.Count() });
 
             //Get total bets count group customer id
-            var customersTotalBets = Bets.GroupBy(x => x.CustomerID).Select(group => new { CustomerID = group.Key, BetCount = group.Count(), AverageStake = Bets.Average(x => x.Stake)});
+            var customersTotalBets = Bets.GroupBy(x => x.CustomerID).Select(group => new { CustomerID = group.Key, BetCount = group.Count(), AverageStake = group.Average(x => x.Stake)});
 
             //join the above two groups on customer id
             var customerStatistics = from customerWon in customersWonBets
